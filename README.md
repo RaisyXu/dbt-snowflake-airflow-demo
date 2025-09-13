@@ -46,7 +46,7 @@ This project models data into Snowflake using **dbt**, organized as staging → 
 ---
 
 ## 📂 Repo Structure
-
+```
 DBT-DAG/
 ├── dags/
 │ ├── dbt_dag.py # Cosmos DAG definition
@@ -67,7 +67,7 @@ DBT-DAG/
 ├── requirements.txt
 ├── astro-project.yaml
 └── README.md
-
+```
 ---
 
 ## 🗂️ Architecture Diagrams
@@ -111,6 +111,7 @@ flowchart TD
 
   T1 --> T2 --> T3 --> T4
 ```
+
 ---
 
 ## ⚙️ Setup Instructions
@@ -153,6 +154,7 @@ For the **Extra (JSON)** field, add your Snowflake details:
   "database": "DBT_DB",
   "role": "DBT_ROLE"
 }
+```
 
 ### 5. Trigger the DAG
 
