@@ -1,30 +1,51 @@
-## 🔄 Workflow
+# 📊 dbt + Snowflake + Airflow (Cosmos) Demo
 
-This project uses **dbt** to model data in Snowflake, following a typical `staging → marts → business views` pattern.
+This project demonstrates an **end-to-end ELT pipeline** using:
+- **dbt** for SQL-based transformations and testing
+- **Snowflake** as the cloud data warehouse
+- **Airflow (via Astronomer Cosmos)** for scheduling and orchestration
 
-1. **Seed & Raw Layer**
-   - CSV seeds are loaded into **DBT_DB.DBT_SCHEMA** using `dbt seed`.
-   - These represent raw transactional data.
+The pipeline loads seed data, transforms it into staging and marts models, validates results with dbt tests, and schedules everything through Airflow.
 
-2. **Staging Layer (`models/staging/`)**
-   - `stg_tpch_orders.sql`: cleans and standardizes order data.
-   - `stg_tpch_line_items.sql`: normalizes line item data.
-   - Together, these form the **cleaned staging layer** for downstream modeling.
+---
 
-3. **Marts Layer (`models/marts/`)**
-   - `fct_orders.sql`: fact table of orders with metrics such as order count, revenue, and discounts.
-   - `int_order_items_summary.sql`: intermediate model summarizing line items at the order level.
-   - `int_order_item.sql`: joins staging tables to prepare enriched fact data.
+## 🚀 Project Overview
 
-4. **Business Views**
-   - dbt builds **business-friendly views** on top of marts, exposed to analytics tools and BI dashboards.
-   - These serve KPIs such as total revenue, order discount rates, and item counts.
+- **Database**: `DBT_DB`  
+- **Schema**: `DBT_SCHEMA`  
+- **Role**: `DBT_ROLE`  
 
-5. **Tests & Validation**
-   - Schema tests (`generic_tests.yml`, `tpch_sources.yml`) ensure columns are `not_null`, `unique`, and valid.
-   - Custom tests (`fct_orders_data_valid.sql`, `fct_orders_discount.sql`) enforce business rules.
+### Workflow
+1. **Seed Data** → CSVs loaded into Snowflake (`dbt seed`)  
+2. **Staging Models** → clean + standardize raw data (`models/staging/`)  
+3. **Marts Models** → transform staging into business-level facts/dimensions (`models/marts/`)  
+4. **Business Views** → exposed to BI/analytics tools  
+5. **Validation** → dbt schema + custom tests  
+6. **Orchestration** → Airflow DAG (`dbt_dag`) runs the dbt workflow on a schedule  
 
-6. **Orchestration**
-   - Airflow (with Cosmos) generates a DAG that runs:
-     - `dbt seed` → `dbt run (staging)` → `dbt run (marts)` → `dbt test`
-   - Scheduled refresh keeps Snowflake marts and views always up to date.
+---
+
+## 📂 Repo Structure
+
+flowchart LR
+  subgraph SF["Snowflake: DBT_DB"]
+    RAW[Seeds / Raw Data]:::raw
+    STG[DBT_SCHEMA.STAGING]:::stg
+    MARTS[DBT_SCHEMA.MARTS]:::mart
+    VIEWS[Business Views for Analytics/BI]:::view
+  end
+
+  subgraph AF["Airflow (Cosmos DAG)"]
+    DAG[dbt_dag]
+  end
+
+  RAW --> STG --> MARTS --> VIEWS
+  DAG -- "dbt seed" --> RAW
+  DAG -- "dbt run (staging)" --> STG
+  DAG -- "dbt run (marts)" --> MARTS
+  DAG -- "dbt test" --> VIEWS
+
+  classDef raw fill=#f2f2f2,stroke=#555,color=#000;
+  classDef stg fill=#cce5ff,stroke=#004085,color=#004085;
+  classDef mart fill=#d4edda,stroke=#155724,color=#155724;
+  classDef view fill=#fff3cd,stroke=#856404,color=#856404;
