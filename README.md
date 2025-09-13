@@ -30,22 +30,28 @@ The pipeline loads seed data, transforms it into staging and marts models, valid
 ### Data Flow in Snowflake
 
 ```mermaid
-flowchart LR
-  subgraph SF["Snowflake: DBT_DB"]
-    RAW[Seeds / Raw Data]
-    STG[DBT_SCHEMA.STAGING]
-    MARTS[DBT_SCHEMA.MARTS]
-    VIEWS[Business Views for Analytics/BI]
+flowchart TD
+  subgraph Snowflake["Snowflake: DBT_DB.DBT_SCHEMA"]
+    V1[View: STG_TPCH_ORDERS]
+    V2[View: STG_TPCH_LINE_ITEMS]
+    T1[Table: INT_ORDER_ITEM]
+    T2[Table: INT_ORDER_ITEMS_SUMMARY]
+    T3[Table: FCT_ORDERS]
   end
 
-  subgraph AF["Airflow (Cosmos DAG)"]
-    DAG[dbt_dag]
+  subgraph Airflow["Airflow DAG: dbt_dag"]
+    S[dbt seed]
+    ST[dbt run staging]
+    M[dbt run marts]
+    TE[dbt test]
   end
 
-  RAW --> STG --> MARTS --> VIEWS
-  DAG -- "dbt seed" --> RAW
-  DAG -- "dbt run (staging)" --> STG
-  DAG -- "dbt run (marts)" --> MARTS
-  DAG -- "dbt test" --> VIEWS
+  S --> ST --> M --> TE
+  ST --> V1
+  ST --> V2
+  M --> T1
+  M --> T2
+  M --> T3
+
 
 ```
