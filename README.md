@@ -1,5 +1,6 @@
 # 📊 dbt + Snowflake + Airflow (Cosmos) Demo
 
+- **Airflow DAG run success**
 ![Airflow DAG Screenshot](airflow_dag.png)
 
 This project demonstrates an **end-to-end ELT pipeline** using:
