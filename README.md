@@ -73,26 +73,3 @@ flowchart TD
   M --> T2
   M --> T3
 ```
-```mermaid
-flowchart TD
-  subgraph Airflow["Airflow DAG: dbt_dag"]
-    T1[dbt seed]
-    T2[dbt run --select staging/*]
-    T3[dbt run --select marts/*]
-    T4[dbt test]
-  end
-
-  subgraph Snowflake["Snowflake (DBT_DB, DBT_SCHEMA, DBT_ROLE)"]
-    S1[Seeds → RAW]
-    S2[Staging Models]
-    S3[Marts Models]
-    S4[Business Views]
-  end
-
-  T1 --> T2 --> T3 --> T4
-  T1 -- load seeds --> S1
-  T2 -- build staging --> S2
-  T3 -- build marts --> S3
-  T4 -- validate & expose --> S4
-
-```
