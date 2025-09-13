@@ -179,3 +179,12 @@ For the **Extra (JSON)** field, add your Snowflake details:
   - Views: `STG_TPCH_ORDERS`, `STG_TPCH_LINE_ITEMS`  
   - Tables: `FCT_ORDERS`, `INT_ORDER_ITEM`, `INT_ORDER_ITEMS_SUMMARY`  
 - ✅ **dbt tests** → confirm data quality (e.g., `not_null`, `unique`, business rule checks)  
+
+
+---
+
+- **dbt lineage graph**  
+  ![dbt lineage](lineage_graph.png)
+
+- **Snowflake schema (tables + views)**  
+  ![Snowflake schema](snowflake_schema.png)
