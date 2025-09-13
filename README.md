@@ -1,5 +1,7 @@
 # 📊 dbt + Snowflake + Airflow (Cosmos) Demo
 
+![Airflow DAG Screenshot](airflow_dag.png)
+
 This project demonstrates an **end-to-end ELT pipeline** using:
 - **dbt** for SQL-based transformations and testing
 - **Snowflake** as the cloud data warehouse
