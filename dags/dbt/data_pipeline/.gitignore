@@ -1,0 +1,27 @@
+
+target/
+dbt_packages/
+logs/
+# Airflow/Astro
+.astro/
+logs/
+include/__pycache__/
+plugins/__pycache__/
+
+# dbt artifacts
+dags/dbt/data_pipeline/target/
+dags/dbt/data_pipeline/dbt_packages/
+dags/dbt/data_pipeline/logs/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+
+# Secrets
+.env
+.env.*

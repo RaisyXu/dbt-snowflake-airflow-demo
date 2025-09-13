@@ -1,0 +1,9 @@
+project:
+  name: dbt-airflow-demo
+
+airflow:
+  image: quay.io/astronomer/astro-runtime:10.1.0
+
+# Optional: you can add env vars here (but usually keep secrets in Airflow Connections)
+# environment:
+#   - AIRFLOW__CORE__LOAD_EXAMPLES=False
