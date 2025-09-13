@@ -105,11 +105,12 @@ flowchart TD
 ```mermaid
 flowchart TD
   T1[dbt seed]
-  T2[dbt run (staging)]
-  T3[dbt run (marts)]
+  T2[dbt run staging]
+  T3[dbt run marts]
   T4[dbt test]
 
   T1 --> T2 --> T3 --> T4
+
 ```
 
 ---
