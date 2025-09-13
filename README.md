@@ -72,8 +72,8 @@ flowchart TD
   M --> T1
   M --> T2
   M --> T3
-
-
+```
+```mermaid
 flowchart TD
   subgraph Airflow["Airflow DAG: dbt_dag"]
     T1[dbt seed]
@@ -95,4 +95,4 @@ flowchart TD
   T3 -- build marts --> S3
   T4 -- validate & expose --> S4
 
-```mermaid
+```
